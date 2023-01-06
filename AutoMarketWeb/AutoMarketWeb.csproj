@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\js\car.js" />
-    <Content Remove="wwwroot\js\comp.js" />
     <Content Remove="wwwroot\js\order.js" />
   </ItemGroup>
 
@@ -41,7 +40,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\js\order.js" />
-    <None Include="wwwroot\js\comp.js" />
     <None Include="wwwroot\js\car.js" />
   </ItemGroup>
 

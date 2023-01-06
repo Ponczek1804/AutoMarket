@@ -1,29 +1,30 @@
-﻿@{
-    var status = Context.Request.Query["status"];
-    var pending = "text-light";
-    var inprocess = "text-light";
-    var completed = "text-light";
-    var approved = "text-light";
-    var all = "text-light";
+﻿@model IEnumerable<OrderHeader>
+@{
+    //var status = Context.Request.Query["status"];
+    //var pending = "text-light";
+    //var inprocess = "text-light";
+    //var completed = "text-light";
+    //var approved = "text-light";
+    //var all = "text-light";
 
-    switch(status)
-    {
-        case "pending":
-            pending = "text-dark bg-light";
-            break;
-        case "inprocess":
-            inprocess = "text-dark bg-light";
-            break;
-        case "completed":
-            completed = "text-dark bg-light";
-            break;
-        case "approved":
-            approved = "text-dark bg-light";
-            break;
-        default:
-            all = "text-dark bg-light";
-            break;
-    }
+    //switch(status)
+    //{
+    //    case "pending":
+    //        pending = "text-dark bg-light";
+    //        break;
+    //    case "inprocess":
+    //        inprocess = "text-dark bg-light";
+    //        break;
+    //    case "completed":
+    //        completed = "text-dark bg-light";
+    //        break;
+    //    case "approved":
+    //        approved = "text-dark bg-light";
+    //        break;
+    //    default:
+    //        all = "text-dark bg-light";
+    //        break;
+    //}
 }
 
 <div class="p-3">
@@ -31,7 +32,7 @@
         <div class="p-2">
             <h2 class="text-primary text-light">Order list</h2>
         </div>
-        <div class="p-2">
+        @*<div class="p-2">
             <ul class="list-group list-group-horizontal-sm">
                 <a style="text-decoration: none;" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
                     <li class="list-group-item @inprocess">In process</li>
@@ -49,7 +50,7 @@
                 <li class="list-group-item @all">All</li>
                 </a>
             </ul>
-        </div>
+        </div>*@
     </div>
     <br /><br />
 
@@ -65,9 +66,41 @@
                 <th></th>
             </tr>
         </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td style="width: 14%;">
+                        @obj.Id
+                    </td>
+                    <td style="width: 14%;">
+                        @obj.Name
+                    </td>
+                    <td style="width: 14%;">
+                        @obj.PhoneNumber
+                    </td>
+                    <td style="width: 14%;">
+                        @obj.ApplicationUser.Email
+                    </td>
+                    <td style="width: 14%;">
+                        @obj.OrderStatus
+                    </td>
+                    <td style="width: 14%;">
+                        @obj.OrderTotal
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Order" asp-action="Details" asp-route-orderId="@obj.Id" class="btn btn-primary mx-2">
+                                <i class="bi bi-file-text"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
 
-@section Scripts{
+@*@section Scripts{
     <script src="~/js/order.js"></script>
-}
+}*@

@@ -28,8 +28,11 @@ namespace AutoMarketWeb.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            return View();
+            IEnumerable<OrderHeader> objOrderHeaderList = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
+            return View(objOrderHeaderList);
         }
 
         public IActionResult Details(int orderId)

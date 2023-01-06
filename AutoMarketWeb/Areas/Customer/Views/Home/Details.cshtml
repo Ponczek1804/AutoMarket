@@ -25,7 +25,7 @@
                             <h6 class="text-muted pb-2">Regular Price: <strike>@Model.Car.Price.ToString("c")</strike></h6>
                         </div>
                         <div class="row pl-2">
-                            <h5 class="text-success pb-2">Discount Price: <strike>@Model.Car.DiscountPrice.ToString("c")</strike></h5>
+                            <h5 class="text-success pb-2">Discount Price: @Model.Car.DiscountPrice.ToString("c")</h5>
                         </div>
                         <div class="row pl-2">
                             <p class="text-secondary">@Html.Raw(Model.Car.Description)</p>

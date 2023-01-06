@@ -127,7 +127,7 @@ namespace AutoMarketWeb.Areas.Customer.Controllers
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 //ustawienia platnosci stripe
-                var domain = "https://localhost:44335/";
+                var domain = "https://automarketciesielski.azurewebsites.net/";
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string>

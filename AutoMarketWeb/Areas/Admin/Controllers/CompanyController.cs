@@ -24,7 +24,8 @@ namespace AutoMarketWeb.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Company> objCompanyList = _unitOfWork.Company.GetAll(); //Daje wszystkie marki z tabeli
+            return View(objCompanyList);
         }
 
         //Upsert GET
@@ -66,6 +67,42 @@ namespace AutoMarketWeb.Areas.Admin.Controllers
             return View(obj);
         }
 
+        //Delete GET
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            //var brandFromDb = _db.Brands.Find(id);
+            var companyFromDbFirst = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+            //var brandFromDbSingle = _db.Brands.SingleOrDefault(u => u.Id == id);
+
+            if (companyFromDbFirst == null)
+            {
+                return NotFound();
+            }
+
+            return View(companyFromDbFirst);
+        }
+
+        //Delete POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken] //Dla bezpieczeństwa, dodaje klucz do posta w formie i go sprawdza tutaj
+        public IActionResult DeletePOST(int? id)
+        {
+            var obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            _unitOfWork.Company.Remove(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "Company deleted successfully";
+            return RedirectToAction("Index");
+        }
+
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
@@ -74,20 +111,20 @@ namespace AutoMarketWeb.Areas.Admin.Controllers
             return Json(new {data=companyList});
         }
 
-        //Delete POST
-        [HttpDelete]
-        public IActionResult Delete(int? id)
-        {
-            var obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
-            if (obj == null)
-            {
-                return Json(new { success = false, message = "Error while deleting" });
-            }
+        ////Delete POST
+        //[HttpDelete]
+        //public IActionResult Delete(int? id)
+        //{
+        //    var obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+        //    if (obj == null)
+        //    {
+        //        return Json(new { success = false, message = "Error while deleting" });
+        //    }
 
-            _unitOfWork.Company.Remove(obj);
-            _unitOfWork.Save();
-            return Json(new { success = true, message = "Delete successfull" });
-        }
+        //    _unitOfWork.Company.Remove(obj);
+        //    _unitOfWork.Save();
+        //    return Json(new { success = true, message = "Delete successfull" });
+        //}
         #endregion
     }
 }
