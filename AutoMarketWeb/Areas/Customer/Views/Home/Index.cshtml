@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AutoMarket.Models.Car>
+@{
+    ViewData["Title"] = "AutoMarket";
+}
+
+<div class="row pb-3">
+    @foreach(var car in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                    <div class="card">
+                        <img src="@car.ImageUrl" class="card-image-top rounded" height="200px;"/>
+                        <div class="card-body">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-primary text-light">@car.Name</p>
+                                <p class="card-title text-info">Mileage: @car.Mileage km</p>
+                                <p class="card-title text-secondary">Year of production: @car.YearOfProduction r.</p>
+                                <hr />
+                            </div>
+                            <div class="pl-1 pt-1">
+                                <p>Regular price: <strike><b>@car.Price.ToString("0.00") PLN</b></strike></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-success h5">Discount price:<br /><b>@car.DiscountPrice.ToString("0.00") PLN</b></p>
+                            </div>
+                        </div>
+                        <div class="p-3 pt-1">
+                            <a asp-action="Details" class="btn btn-primary form-control" asp-route-carId="@car.Id"><b class="h5">Details</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

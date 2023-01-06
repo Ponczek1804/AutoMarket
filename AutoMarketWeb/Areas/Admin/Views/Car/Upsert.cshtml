@@ -1,0 +1,124 @@
+﻿@model AutoMarket.Models.ViewModels.CarVM
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="Car.Id" hidden />
+    <input asp-for="Car.ImageUrl" hidden />
+
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary text-light pb-2">@(Model.Car.Id != 0 ? "Update" : "Create") car</h2>
+                    <hr />
+                </div>
+                @*<div asp-validation-summary="All"></div>*@
+                <div class="mb-4">
+                    <label asp-for="Car.Name"></label>
+                    <input asp-for="Car.Name" class="form-control" />
+                    <span asp-validation-for="Car.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Car.Description"></label>
+                    <textarea asp-for="Car.Description" class="form-control"></textarea>
+                    <span asp-validation-for="Car.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.Price"></label>
+                    <input asp-for="Car.Price" class="form-control" />
+                    <span asp-validation-for="Car.Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.DiscountPrice"></label>
+                    <input asp-for="Car.DiscountPrice" class="form-control" />
+                    <span asp-validation-for="Car.DiscountPrice" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.YearOfProduction"></label>
+                    <input asp-for="Car.YearOfProduction" class="form-control" />
+                    <span asp-validation-for="Car.YearOfProduction" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.Mileage"></label>
+                    <input asp-for="Car.Mileage" class="form-control" />
+                    <span asp-validation-for="Car.Mileage" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Car.ImageUrl"></label>
+                    <input type="file" id="uploadBox" name="file" class="form-control" />
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.BrandId"></label>
+                    <select asp-for="Car.BrandId" asp-items="@Model.BrandList" class="form-select">
+                        <option disabled selected>-- Select brand --</option>
+                    </select>
+                    <span asp-validation-for="Car.BrandId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 col-6">
+                    <label asp-for="Car.FuelTypeId"></label>
+                    <select asp-for="Car.FuelTypeId" asp-items="@Model.FuelTypeList" class="form-select">
+                        <option disabled selected>-- Select fuel type --</option>
+                    </select>
+                    <span asp-validation-for="Car.FuelTypeId" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    @if (Model.Car.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary" style="width: 150px;">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width: 150px;">Create</button>
+                    }
+                    <a asp-controller="Car" asp-action="Index" class="btn btn-secondary text-dark" style="width:150px;">
+                        Back to list
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 pt-4">
+            <img src="@Model.Car.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+
+    
+</form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+        //Wstawia wbudowaną walidacje client side
+    }
+    <script>
+        function ValidateInput(){
+            if(document.getElementById("uploadBox").value==""){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image!',
+                });
+                return false;
+            }
+            return true;
+        }
+
+            tinymce.init({
+                selector: 'textarea',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'Author name',
+                mergetags_list: [
+                    { value: 'First.Name', title: 'First Name' },
+                    { value: 'Email', title: 'Email' },
+                ]
+            });
+    </script>
+}

@@ -1,0 +1,55 @@
+﻿@model AutoMarket.Models.ShoppingCart
+@{
+    ViewData["Title"] = "Details";
+}
+
+<form method="post" class="pt-4">
+    <input hidden asp-for="CarId" />
+    <div class="card  container">
+        <div class="card-header bg-primary text-light ml-0  row ">
+            <div class="col-12 col-md-6">
+                <h1 class="text-white-50">@Model.Car.Name</h1>
+                <p class="text-info pt-1">Mileage: @Model.Car.Mileage km</p>
+                <p class="text-secondary mt-1">Year of production: @Model.Car.YearOfProduction r.</p>
+            </div>
+            <div class="col-12 col-md-6 text-end pt-4">
+                <span class="badge bg-info pt-2" style="height:30px;">@Model.Car.Brand.Name</span>
+                <span class="badge bg-warning pt-2" style="height:30px;">@Model.Car.FuelType.Name</span>
+            </div>
+        </div>
+        <div class="card-body row container">
+            <div class="container rounded p-2">
+                <div class="row">
+                    <div class="col-8 col-lg-8">
+                        <div class="row pl-2">
+                            <h6 class="text-muted pb-2">Regular Price: <strike>@Model.Car.Price.ToString("c")</strike></h6>
+                        </div>
+                        <div class="row pl-2">
+                            <h5 class="text-success pb-2">Discount Price: <strike>@Model.Car.DiscountPrice.ToString("c")</strike></h5>
+                        </div>
+                        <div class="row pl-2">
+                            <p class="text-secondary">@Html.Raw(Model.Car.Description)</p>
+                        </div>
+                        <div class="row pl-2">
+                            @*<div class="col-2 text-primary"><h4>Count</h4></div>*@
+                            <div class="col-10"><input asp-for="Count" hidden class="form-control" /></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 offset-lg-1 text-center">
+                        <img src="@Model.Car.ImageUrl" width="100%" class="rounded" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-12 col-md-6 pb-1 pt-1">
+                    <a class="btn btn-secondary form-control " style="height:50px;" asp-action="Index">Back to List</a>
+                </div>
+                <div class="col-12 col-md-6 pb-1 pt-1">
+                    <button type="submit" value="Add to Cart" class="btn btn-primary form-control" style="height:50px;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
