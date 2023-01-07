@@ -30,9 +30,16 @@ namespace AutoMarketWeb.Areas.Admin.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            IEnumerable<OrderHeader> objOrderHeaderList = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
-            return View(objOrderHeaderList);
+            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+            {
+                IEnumerable<OrderHeader> objOrderHeaderList = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser");
+                return View(objOrderHeaderList);
+            }
+            else
+            {
+                IEnumerable<OrderHeader> objOrderHeaderList = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "ApplicationUser");
+                return View(objOrderHeaderList);
+            }
         }
 
         public IActionResult Details(int orderId)
